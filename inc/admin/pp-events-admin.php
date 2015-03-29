@@ -47,9 +47,10 @@ class PP_Simple_Events_Admin {
 
 		add_meta_box('event_date_time',  __('Date / Time', 'bp-simple-events'), array( $this, 'date_time_show' ), 'event', 'normal', 'default');
 
+		add_meta_box('event_location',  __('Location', 'bp-simple-events'), array( $this, 'location_show' ), 'event', 'normal', 'default');
+
 		add_meta_box('event_url',  __('URL', 'bp-simple-events'), array( $this, 'url_show' ), 'event', 'normal', 'default');
 
-		add_meta_box('event_location',  __('Location', 'bp-simple-events'), array( $this, 'location_show' ), 'event', 'normal', 'default');
 	}
 
 
@@ -126,6 +127,9 @@ class PP_Simple_Events_Admin {
 
 		<?php
 	}
+
+
+
 
 
 	function save_meta_boxes( $post_id ) {
@@ -241,6 +245,10 @@ class PP_Simple_Events_Admin {
 
 	}
 
+
+
+
+
 	// add custom columns
 	function custom_columns_head( $defaults ) {
 
@@ -270,6 +278,46 @@ class PP_Simple_Events_Admin {
 
 
 
+	/**
+	 * Create & save metabox on single group screen
+	 */
+
+	function add_group_metabox() {
+
+		add_meta_box( 'bp_group_events', _x( 'Group Events', 'group admin edit screen', 'bp-simple-events' ),  array( $this, 'show_group_metabox'), get_current_screen()->id, 'side' );
+
+	}
+
+	function show_group_metabox() {
+		$group_id = isset( $_REQUEST['gid'] ) ? (int) $_REQUEST['gid'] : '';
+	?>
+
+		<div id="bp_groups_events" class="postbox">
+			<div class="inside">
+				<input type="checkbox" name="pp-events-assignable" id="pp-events-assignable" value="1"<?php $this->group_assignable_setting( $group_id ); ?> /> <?php _e( 'Allow group members to assign Events to this group.', 'bp-simple-events' ); ?>
+			</div>
+		</div>
+
+	<?php
+	}
+
+	function save_group_metabox( $group_id ) {
+
+		if ( ! empty( $_POST['pp-events-assignable'] ) )
+			groups_update_groupmeta( $group_id, 'pp-events-assignable', '1' );
+		else
+			groups_delete_groupmeta( $group_id, 'pp-events-assignable' );
+
+	}
+
+	private function group_assignable_setting( $group_id ) {
+
+		if ( groups_get_groupmeta( $group_id, 'pp-events-assignable' ) )
+			echo ' checked="checked"';
+
+	}
+
 } // end of PP_Simple_Events_Admin class
 
 $pp_se_admin_instance = new PP_Simple_Events_Admin();
+

@@ -42,7 +42,6 @@ $required_fields = get_option( 'pp_events_required' );
 		<input type="text" size="80" id="event-url" name="event-url" placeholder="<?php echo __( 'Add an Event-related Url...', 'bp-simple-events' ); ?>" value="<?php echo $pp_ec->url; ?>" />
 	</p>
 
-
 	<?php
 		$args = array(
 			'type'                     => 'post',
@@ -78,7 +77,8 @@ $required_fields = get_option( 'pp_events_required' );
 			?>
 		</p>
 
-	<?php endif; ?>
+	<?php endif; ?>	
+	
 
 	<input type="hidden" id="event-address" name="event-address" value="<?php echo $pp_ec->address; ?>" />
 	<input type="hidden" id="event-latlng" name="event-latlng"  value="<?php echo $pp_ec->latlng; ?>" />

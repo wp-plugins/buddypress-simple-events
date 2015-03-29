@@ -37,6 +37,10 @@ $wp_query = new WP_Query( $args );
 
 		<?php if ( $wp_query->have_posts() ) : ?>
 
+			<div class="entry-content"><br/>
+				<?php echo pp_events_pagination( $wp_query ); ?>
+			</div>
+
 			<?php while ( $wp_query->have_posts() ) : $wp_query->the_post(); 	?>
 
 				<div class="entry-content">
@@ -58,6 +62,14 @@ $wp_query = new WP_Query( $args );
 
 
 					<?php the_excerpt(); ?>
+
+
+					<?php
+					if ( has_post_thumbnail() ) {
+						the_post_thumbnail( 'thumbnail' );
+						echo '<br/>';
+					}
+					?>
 
 					<?php
 					$meta = get_post_meta($post->ID );
@@ -84,9 +96,9 @@ $wp_query = new WP_Query( $args );
 
 		<?php endwhile; ?>
 
-			<div class="entry-content"><br/>
-				<?php pp_events_pagination( $wp_query ); ?>
-			</div>
+		<div class="entry-content"><br/>
+			<?php echo pp_events_pagination( $wp_query ); ?>
+		</div>
 
 		<?php else : ?>
 

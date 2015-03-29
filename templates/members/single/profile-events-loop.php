@@ -1,22 +1,21 @@
 <?php
 
 /**
- * Template for looping through assigned Events on a Group page
+ * Template for looping through Events on a member profile page
  * You can copy this file to your-theme/buddypress/members/single
  * and then edit the layout.
  */
 
-//$paged = ( get_query_var( 'paged' ) ) ? get_query_var( 'paged' ) : 1;
-
-$group_id = bp_get_group_id();  //echo 'group id: ' . $group_id;
+$paged = ( isset( $_GET['ep'] ) ) ? $_GET['ep'] : 1;
 
 $args = array(
 	'post_type'      => 'event',
+	'author'         => bp_displayed_user_id(),
 	'order'          => 'ASC',
 	'orderby'		 => 'meta_value_num',
 	'meta_key'		 => 'event-unix',
-	//'paged'          => $paged,
-	'posts_per_page' => -1,
+	'paged'          => $paged,
+	'posts_per_page' => 10,
 
 	'meta_query' => array(
 		array(
@@ -25,23 +24,22 @@ $args = array(
 			'compare'	=> '>=',
 			'type' 		=> 'NUMERIC',
 		),
-		array(
-			'key'		=> 'event-groups',
-			'value'		=> bp_get_group_id(),
-			'compare'	=> '=',
-			//'type' 		=> 'NUMERIC',
-		),
-
 	),
 
 );
 
 $wp_query = new WP_Query( $args );
 
+$user_link = bp_core_get_user_domain( bp_displayed_user_id() );
+
 ?>
 
 
 <?php if ( $wp_query->have_posts() ) : ?>
+
+	<div class="entry-content"><br/>
+		<?php echo pp_events_profile_pagination( $wp_query ); ?>
+	</div>
 
 	<?php while ( $wp_query->have_posts() ) : $wp_query->the_post(); 	?>
 
@@ -54,15 +52,28 @@ $wp_query = new WP_Query( $args );
 			</h2>
 
 			<?php
-			$author_id = get_the_author_meta('ID');
-			$author_name = get_the_author_meta('display_name');
+			if( bp_is_my_profile() || is_super_admin() ) {
+
+				$edit_link = wp_nonce_url( $user_link . 'events/create?eid=' . $post->ID, 'editing', 'edn');
+
+				$delLink = get_delete_post_link( $post->ID );
+
 			?>
 
-			<a href="<?php echo bp_core_get_user_domain( $author_id ); ?>">
-			<?php echo bp_core_fetch_avatar( array( 'item_id' => $author_id ) ); ?>
-			&nbsp;<?php echo $author_name; ?></a>
+				<span class="edit"><a href="<?php echo $edit_link; ?>" title="Edit  Event">Edit</a></span>
+				&nbsp; &nbsp;
+				<span class="trash"><a onclick="return confirm('Are you sure you want to delete this Event?')" href="<?php echo $delLink; ?>" title="Delete Event" class="submit">Delete</a></span>
+
+			<?php } ?>
 
 			<?php the_excerpt(); ?>
+
+			<?php
+			if ( has_post_thumbnail() ) {
+				the_post_thumbnail( 'thumbnail' );
+				echo '<br/>';
+			}
+			?>
 
 			<?php
 			$meta = get_post_meta($post->ID );
@@ -90,14 +101,14 @@ $wp_query = new WP_Query( $args );
 	<?php endwhile; ?>
 
 	<div class="entry-content"><br/>
-		<?php //pp_events_pagination( $wp_query ); ?>
+		<?php echo pp_events_profile_pagination( $wp_query ); ?>
 	</div>
 
 	<?php wp_reset_query(); ?>
 
 <?php else : ?>
 
-	<div class="entry-content"><br/>There are no upcoming Events for this Group.</div>
+	<div class="entry-content"><br/>There are no upcoming Events for this member. There may be Events in the Archive.</div>
 
 
 <?php endif; ?>

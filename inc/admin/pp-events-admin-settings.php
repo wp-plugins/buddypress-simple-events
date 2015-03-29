@@ -73,7 +73,6 @@ class PP_Simple_Events_Admin_Settings {
 			}?>
 
 			</ul>
-			<hr/>
 
 			<input type="hidden" name="role-access" value="1"/>
 			<input type="submit" name="submit" class="button button-primary" value="<?php echo __('Save Roles', 'bp-simple-events'); ?>"/>
@@ -119,7 +118,6 @@ class PP_Simple_Events_Admin_Settings {
 					<li><label for="required-url"><input id="required-url" type="checkbox" name="pp-required[]" value="url" <?php if( in_array( 'url', $required_fields ) ) echo $checked ; ?> /> <?php echo __( 'Url', 'bp-simple-events' ); ?></label></li>
 
 					<li><label for="required-url"><input id="required-categories" type="checkbox" name="pp-required[]" value="categories" <?php if( in_array( 'categories', $required_fields ) ) echo $checked ; ?> /> <?php echo __( 'Categories', 'bp-simple-events' ); ?></label></li>
-
 
 				</ul>
 				<hr/>
@@ -224,12 +222,6 @@ class PP_Simple_Events_Admin_Settings {
 				$tab_value = 52;
 
 			update_option( 'pp_events_tab_position', $tab_value );
-
-
-			if ( ! empty( $_POST['pp-groups'] ) )
-				update_option( 'pp_events_groups', '1' );
-			else
-				update_option( 'pp_events_groups', '0' );
 
 
 			delete_option( 'pp_events_required' );

@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Template for looping through Events on a member profile page
+ * Template for looping through expired Events on a member profile page
  * You can copy this file to your-theme/buddypress/members/single
  * and then edit the layout.
  */
 
-$paged = ( get_query_var( 'paged' ) ) ? get_query_var( 'paged' ) : 1;
+$paged = ( isset( $_GET['ep'] ) ) ? $_GET['ep'] : 1;
 
 $args = array(
 	'post_type'      => 'event',
@@ -21,7 +21,7 @@ $args = array(
 		array(
 			'key'		=> 'event-unix',
 			'value'		=> current_time( 'timestamp' ),
-			'compare'	=> '>=',
+			'compare'	=> '<=',
 			'type' 		=> 'NUMERIC',
 		),
 	),
@@ -34,8 +34,11 @@ $user_link = bp_core_get_user_domain( bp_displayed_user_id() );
 
 ?>
 
-
 <?php if ( $wp_query->have_posts() ) : ?>
+
+	<div class="entry-content"><br/>
+		<?php echo pp_events_profile_pagination( $wp_query ); ?>
+	</div>
 
 	<?php while ( $wp_query->have_posts() ) : $wp_query->the_post(); 	?>
 
@@ -44,7 +47,6 @@ $user_link = bp_core_get_user_domain( bp_displayed_user_id() );
 			<h2 class="entry-title">
 				<a href="<?php the_permalink() ?>" rel="bookmark" title="Permanent Link to <?php the_title_attribute(); ?>">
 				<?php the_title(); ?></a>
-
 			</h2>
 
 			<?php
@@ -63,6 +65,13 @@ $user_link = bp_core_get_user_domain( bp_displayed_user_id() );
 			<?php } ?>
 
 			<?php the_excerpt(); ?>
+
+			<?php
+			if ( has_post_thumbnail() ) {
+				the_post_thumbnail( 'thumbnail' );
+				echo '<br/>';
+			}
+			?>
 
 			<?php
 			$meta = get_post_meta($post->ID );
@@ -90,14 +99,15 @@ $user_link = bp_core_get_user_domain( bp_displayed_user_id() );
 	<?php endwhile; ?>
 
 	<div class="entry-content"><br/>
-		<?php pp_events_pagination( $wp_query ); ?>
+		<?php echo pp_events_profile_pagination( $wp_query ); ?>
 	</div>
+
 
 	<?php wp_reset_query(); ?>
 
 <?php else : ?>
 
-	<div class="entry-content"><br/>There are no upcoming Events for this member. There may be Events in the Archive.</div>
+	<div class="entry-content"><br/>There are no expired Events for this member.</div>
 
 
 <?php endif; ?>

@@ -35,10 +35,14 @@ wp_print_scripts( 'google-maps-api' );
 				$author_id = get_the_author_meta('ID');
 				$author_name = get_the_author_meta('display_name');
 				$user_link = bp_core_get_user_domain( $author_id );
+				if( get_current_user_id() == $author_id )
+					$is_author = true;
+				else
+					$is_author = false;
 				?>
 
 				<?php
-				if( ( get_current_user_id() == $author_id ) || is_super_admin() ) {
+				if( $is_author || is_super_admin() ) :
 
 					$edit_link = wp_nonce_url( $user_link . 'events/create?eid=' . $post->ID, 'editing', 'edn');
 
@@ -51,12 +55,23 @@ wp_print_scripts( 'google-maps-api' );
 					<span class="trash"><a onclick="return confirm('Are you sure you want to delete this Event?')" href="<?php echo $delLink; ?>" title="Delete Event" class="submit">Delete</a></span>
 
 					<?php echo '<br/>'; ?>
-				<?php } ?>
 
+				<?php endif; ?>
+
+				<br/>
 
 				<a href="<?php echo bp_core_get_user_domain( $author_id ); ?>">
-				<?php echo bp_core_fetch_avatar( array( 'item_id' => $author_id ) ); ?>
+				<?php echo bp_core_fetch_avatar( array( 'item_id' => $author_id, 'type' => 'thumb' ) ); ?>
 				&nbsp;<?php echo $author_name; ?></a>
+
+
+				<?php
+				if ( has_post_thumbnail() ) {
+					echo '<br/>';
+					the_post_thumbnail( 'large' );
+					echo '<br/>';
+				}
+				?>
 
 				<?php the_content(); ?>
 
@@ -108,11 +123,13 @@ wp_print_scripts( 'google-maps-api' );
 			</div>
 
 			<br/>
-			<nav class="nav-single">
-				<span class="nav-previous"><?php previous_post_link( '%link', '<span class="meta-nav">' . _x( '&larr;', 'Previous post link', 'twentytwelve' ) . '</span> %title' ); ?></span>
-				<span class="nav-next"><?php next_post_link( '%link', '%title <span class="meta-nav">' . _x( '&rarr;', 'Next post link', 'twentytwelve' ) . '</span>' ); ?></span>
-			</nav><!-- .nav-single -->
-
+			<div class="entry-content">
+				<nav class="nav-single">
+					<span class="nav-previous"><?php previous_post_link( '%link', '<span class="meta-nav">' . _x( '&larr;', 'Previous post link', 'bp-simple_events' ) . '</span> %title' ); ?></span>
+					&nbsp; &nbsp;
+					<span class="nav-next"><?php next_post_link( '%link', '%title <span class="meta-nav">' . _x( '&rarr;', 'Next post link', 'bp-simple_events' ) . '</span>' ); ?></span>
+				</nav><!-- .nav-single -->
+			</div>
 			<?php comments_template( '', true ); ?>
 
 		<?php endwhile; ?>
