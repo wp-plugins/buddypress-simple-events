@@ -2,7 +2,7 @@
 /*
 Plugin Name: BuddyPress Simple Events
 Description: An Events plugin for BuddyPress
-Version: 1.0
+Version: 1.1
 Author: shanebp
 Author URI: http://philopress.com/
 */
@@ -19,22 +19,13 @@ function pp_events_init() {
 
 		load_plugin_textdomain( 'bp-simple-events', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 
-
-		if( ! is_admin() ) {
-			require( PP_EVENTS_DIR . '/inc/pp-events-functions.php' );
-			require( PP_EVENTS_DIR . '/inc/pp-events-templates.php' );
-			require( PP_EVENTS_DIR . '/inc/pp-events-profile.php' );
-			require( PP_EVENTS_DIR . '/inc/pp-events-widget.php' );
-		}
-		else {
-		    require( PP_EVENTS_DIR . '/inc/admin/pp-events-admin.php' );
-			require( PP_EVENTS_DIR . '/inc/admin/pp-events-admin-settings.php' );
-			require( PP_EVENTS_DIR . '/inc/pp-events-widget.php' );
-		 }
+		require( dirname( __FILE__ ) . '/inc/pp-events-core.php' );
 
 	}
+
 }
 add_action( 'bp_include', 'pp_events_init' );
+
 
 
 function pp_events_activation() {
@@ -114,20 +105,6 @@ function pp_create_events_page() {
 }
 
 
-function pp_activate_events_notice() {
-
-	$notice = get_option( 'events-img-support-notice' );
-
-	if( $notice ) {
-
-		echo '<div class="update-nag"><p>' . $notice . '</p></div>';
-
-		delete_option( 'events-img-support-notice' );
-	}
-}
-add_action('admin_notices', 'pp_activate_events_notice');
-
-
 function pp_create_post_type_event() {
 
 	register_post_type( 'event',
@@ -144,7 +121,12 @@ function pp_create_post_type_event() {
 			'view_item' => __( 'View Event' ),
 			'search_items' => __( 'Search Events' ),
 			'not_found' => __( 'No Events found' ),
-			'not_found_in_trash' => __( 'No Events found in Trash' )
+			'not_found_in_trash' => __( 'No Events found in Trash' ),
+            'bp_activity_admin_filter' => __( 'Events', 'bp-simple-events' ),
+            'bp_activity_front_filter' => __( 'Events', 'bp-simple-events' ),
+            'bp_activity_new_post'     => __( '%1$s created a new <a href="%2$s">Event</a>', 'bp-simple-events' ),
+            'bp_activity_new_post_ms'  => __( '%1$s created a new <a href="%2$s">Event</a>, on the site %3$s', 'bp-simple-events' ),
+
 		),
 		'public' => true,
 		'query_var' => true,
@@ -155,6 +137,12 @@ function pp_create_post_type_event() {
 		'map_meta_cap' => true,
 		'hierarchical' => false,
 		"supports"	=> array("title", "editor", "thumbnail", "author", "comments", "trackbacks", "buddypress-activity"),
+        'bp_activity' => array(
+            'component_id'          => buddypress()->activity->id,
+            'action_id'             => 'new_event',
+            'contexts'              => array( 'activity', 'member', 'groups', 'member-groups' ),
+            'position'              => 70,
+        ),
 		'taxonomies' => array('category'),
 		)
 	);

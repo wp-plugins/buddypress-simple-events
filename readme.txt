@@ -6,7 +6,7 @@ Author URI: http://philopress.com/contact/
 Plugin URI: http://philopress.com/products/
 Requires at least: WP 4.0 / BP 2.2
 Tested up to: WP 4.1.1 / BP 2.2.1
-Stable tag: 1.0
+Stable tag: 1.1
 License: GPLv2 or later
 
 A simple Events plugin for BuddyPress
@@ -22,7 +22,7 @@ It:
 * uses the Google Places API for creating locations
 * uses Google Maps to show Event location 
 * creates a custom post type called 'event'
-* uses WP / BP templates that can be overloaded
+* uses WP and BP templates that can be overloaded
 * includes a widget
 
 
@@ -32,19 +32,19 @@ It does NOT have:
 * calendars
 * recurring events
 
-If you would like support for images and an option for assignment to a Group,
+If you would like support for images, an Attending button and an option for assignment to a Group,
 you may be interested in http://www.philopress.com/buddypress-simple-events-pro
 
 For more BuddyPress plugins, please visit http://www.philopress.com/
 
 == Installation ==
 
-1. Unzip and then upload the 'buddypress-simple-events' folder to the '/wp-content/plugins/' directory
+1. Unzip and then upload the 'bp-simple-events' folder to the '/wp-content/plugins/' directory
 
 2. Activate the plugin through the 'Plugins' menu in WordPress
 
 3. Go to Settings -> BP Simple Events and select which user roles are allowed to create Events. 
-Admins are automatically given permission. 
+Admins are automatically given permission.   Other settings are also available.
 
 
 
@@ -61,6 +61,12 @@ Admins are automatically given permission.
 = 1.0 =
 * Initial release.
 
+= 1.1 =
+* Refactored as a component.
+
 == Upgrade Notice ==
 
 = 1.0 =
+
+= 1.1 =
+* Refactored as a component. Pagination fixed.
