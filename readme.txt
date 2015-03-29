@@ -6,7 +6,7 @@ Author URI: http://philopress.com/contact/
 Plugin URI: http://philopress.com/products/
 Requires at least: WP 4.0 / BP 2.2
 Tested up to: WP 4.1.1 / BP 2.2.1
-Stable tag: 1.1
+Stable tag: 1.2
 License: GPLv2 or later
 
 A simple Events plugin for BuddyPress
@@ -64,9 +64,15 @@ Admins are automatically given permission.   Other settings are also available.
 = 1.1 =
 * Refactored as a component.
 
+= 1.2 =
+* Add file missing from last release.
+
 == Upgrade Notice ==
 
 = 1.0 =
 
 = 1.1 =
 * Refactored as a component. Pagination fixed.
+
+= 1.2 =
+* Add file missing from last release.
