@@ -3,7 +3,7 @@
 /**
  * Template for creating or editing Events on a member profile page
  * You can copy this file to your-theme/buddypress/members/single
- * and then edit the layout.
+ * and then edit the layout. 
  */
 
 global $pp_ec;  // access to BP_Simple_Events_Create singleton
