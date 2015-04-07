@@ -100,7 +100,8 @@ function pp_event_trash_redirect(){
 add_action('template_redirect', 'pp_event_trash_redirect');
 
 
-// cleanup when Event is permanently deleted
+/*
+// cleanup when Event is permanently deleted - Note: not used, using 'trash' hook below
 function pp_event_delete_cleanup( $postid ){
     global $post_type;
 
@@ -111,7 +112,26 @@ function pp_event_delete_cleanup( $postid ){
 
 	//  delete notifications ? //	bp_notifications_delete_notifications_by_item_id
 }
-add_action( 'before_delete_post', 'pp_event_delete_cleanup' );
+//add_action( 'before_delete_post', 'pp_event_delete_cleanup' );
+*/
+
+// cleanup when Event is trashed
+function pp_event_trash_cleanup( $postid ){
+
+	BP_Activity_Activity::delete( array( 'secondary_item_id' => $postid ) );
+
+	/*
+	// Notifications only supported in Pro version
+	$user_id = get_post_field( 'post_author', $postid );
+	$item_id = $postid;
+	$component_name = 'events';
+	$component_action = 'event_attender';
+	
+	bp_notifications_delete_notifications_by_item_id( $user_id, $item_id, $component_name, $component_action );
+	*/
+
+}
+add_action( 'trash_event', 'pp_event_trash_cleanup' );
 
 
 // turn Event > Url to a link

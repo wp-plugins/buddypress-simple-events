@@ -6,7 +6,7 @@ Author URI: http://philopress.com/contact/
 Plugin URI: http://philopress.com/products/
 Requires at least: WP 4.0 / BP 2.2
 Tested up to: WP 4.1.1 / BP 2.2.1
-Stable tag: 1.3
+Stable tag: 1.3.2
 License: GPLv2 or later
 
 A simple Events plugin for BuddyPress
@@ -66,6 +66,7 @@ If they are not a member of the main site, they will not see the Events tab.
 1. Shows the front-end Create an Event screen on a member profile
 2. Shows the Dashboard > Settings screen
 
+
 == Changelog ==
 
 = 1.0 =
@@ -80,6 +81,10 @@ If they are not a member of the main site, they will not see the Events tab.
 = 1.3 =
 * Add multisite support, improved cleanup on trash
 
+= 1.3.2 =
+* Use trash hook instead of delete hook for cleanup on Event deletion 
+
+
 == Upgrade Notice ==
 
 = 1.0 =
@@ -92,3 +97,6 @@ If they are not a member of the main site, they will not see the Events tab.
 
 = 1.3 =
 * Add multisite support, improved cleanup on trash
+
+= 1.3.2 =
+* Use trash hook instead of delete hook for cleanup on Event deletion 
