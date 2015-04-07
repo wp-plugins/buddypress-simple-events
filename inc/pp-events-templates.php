@@ -32,7 +32,8 @@ function pp_events_template_redirect() {
 
 		$page_title = $wp_query->post->post_title;
 
-		if ( $page_title == 'Events' ) {
+		//if ( $page_title == 'Events' ) {
+		if ( $page_title == __( 'Events', 'bp-simple-events' ) ) {
 
 			$theme_template = 'events-loop.php';
 
