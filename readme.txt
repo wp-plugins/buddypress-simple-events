@@ -5,8 +5,8 @@ Tags: buddypress, events
 Author URI: http://philopress.com/contact/
 Plugin URI: http://philopress.com/products/
 Requires at least: WP 4.0 / BP 2.2
-Tested up to: WP 4.1.1 / BP 2.2.1
-Stable tag: 1.1
+Tested up to: WP 4.1.1 / BP 2.2.2.1
+Stable tag: 1.3.3
 License: GPLv2 or later
 
 A simple Events plugin for BuddyPress
@@ -18,7 +18,6 @@ This BuddyPress plugin allows members to create, edit and delete Events from the
 It:
 
 * provides a tab on each members' profile for front-end creation, editing and deletion
-* supports the basic creation and editing of Events
 * uses the Google Places API for creating locations
 * uses Google Maps to show Event location 
 * creates a custom post type called 'event'
@@ -32,7 +31,7 @@ It does NOT have:
 * calendars
 * recurring events
 
-If you would like support for images, an Attending button and an option for assignment to a Group,
+If you would like support for Images, an Attending button and an option for assignment to a Group,
 you may be interested in http://www.philopress.com/buddypress-simple-events-pro
 
 For more BuddyPress plugins, please visit http://www.philopress.com/
@@ -47,14 +46,26 @@ For more BuddyPress plugins, please visit http://www.philopress.com/
 Admins are automatically given permission.   Other settings are also available.
 
 
-
 == Frequently Asked Questions ==
-= None yet. =
+
+= MultiSite support? =
+
+Yes. Tested in the following configuration:
+
+* WP.4.1.1 - Multisite
+* BuddyPress 2.2 + - Network Activated
+* BuddyPress Simple Events - Network Activated
+
+Roles can be assigned via the Network Admin > Settings > BP Simple Events screen.
+
+But a member _must_ be a member of the main site in order to create Events.
+If they are not a member of the main site, they will not see the Events tab.
 
 
 == Screenshots ==
 1. Shows the front-end Create an Event screen on a member profile
 2. Shows the Dashboard > Settings screen
+
 
 == Changelog ==
 
@@ -64,9 +75,28 @@ Admins are automatically given permission.   Other settings are also available.
 = 1.1 =
 * Refactored as a component.
 
+= 1.2 =
+* Add file missing from last release.
+
+= 1.3 =
+* Add multisite support, improved cleanup on trash
+
+= 1.3.2 =
+* Use trash hook instead of delete hook for cleanup on Event deletion 
+
+
 == Upgrade Notice ==
 
 = 1.0 =
 
 = 1.1 =
 * Refactored as a component. Pagination fixed.
+
+= 1.2 =
+* Add file missing from last release.
+
+= 1.3 =
+* Add multisite support, improved cleanup on trash
+
+= 1.3.2 =
+* Use trash hook instead of delete hook for cleanup on Event deletion 

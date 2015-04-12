@@ -59,6 +59,9 @@ class PP_Events_Component extends BP_Component {
 
 	function setup_nav( $main_nav = array(), $sub_nav = array() ) {
 
+		if ( ! current_user_can('publish_events') )
+			return;	
+	
 		$user_has_access = false;
 		if( bp_is_my_profile() || is_super_admin() )
 			$user_has_access = true;

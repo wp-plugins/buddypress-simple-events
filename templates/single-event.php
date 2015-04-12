@@ -1,6 +1,6 @@
 <?php
 
- /**
+ /** 
  * Template for displaying a single Event
  * You can copy this file to your-theme
  * and then edit the layout.
