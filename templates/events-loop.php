@@ -3,7 +3,7 @@
 /**
  * Template for displaying the Events Loop
  * You can copy this file to your-theme
- * and then edit the layout.
+ * and then edit the layout. 
  */
 
 get_header();
