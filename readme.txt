@@ -5,8 +5,8 @@ Tags: buddypress, events
 Author URI: http://philopress.com/contact/
 Plugin URI: http://philopress.com/products/
 Requires at least: WP 4.0 / BP 2.2
-Tested up to: WP 4.1.1 / BP 2.2.1
-Stable tag: 1.3.2
+Tested up to: WP 4.1.1 / BP 2.2.2.1
+Stable tag: 1.3.4
 License: GPLv2 or later
 
 A simple Events plugin for BuddyPress
@@ -52,9 +52,9 @@ Admins are automatically given permission.   Other settings are also available.
 
 Yes. Tested in the following configuration:
 
-WP.4.1.1 - Multisite
-BuddyPress 2.2.1 - Network Activated
-BuddyPress Simple Events - Network Activated
+* WP.4.1.1 - Multisite
+* BuddyPress 2.2 + - Network Activated
+* BuddyPress Simple Events - Network Activated
 
 Roles can be assigned via the Network Admin > Settings > BP Simple Events screen.
 
@@ -84,6 +84,8 @@ If they are not a member of the main site, they will not see the Events tab.
 = 1.3.2 =
 * Use trash hook instead of delete hook for cleanup on Event deletion 
 
+= 1.3.4 =
+* Check if BP is activated 
 
 == Upgrade Notice ==
 
@@ -100,3 +102,6 @@ If they are not a member of the main site, they will not see the Events tab.
 
 = 1.3.2 =
 * Use trash hook instead of delete hook for cleanup on Event deletion 
+
+= 1.3.4 =
+* Check if BP is activated 
