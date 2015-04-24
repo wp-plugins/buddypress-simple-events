@@ -58,7 +58,15 @@ class PP_Events_Component extends BP_Component {
 	}
 
 	function setup_nav( $main_nav = array(), $sub_nav = array() ) {
-
+		
+		if ( bp_displayed_user_domain() ) {
+			$user_domain = bp_displayed_user_domain();
+		} elseif ( bp_loggedin_user_domain() ) {
+			$user_domain = bp_loggedin_user_domain();
+		} else {
+			return;
+		}
+		
 		$user_has_access = false;
 		if( bp_is_my_profile() || is_super_admin() )
 			$user_has_access = true;
@@ -80,7 +88,7 @@ class PP_Events_Component extends BP_Component {
 		bp_core_new_subnav_item( array(
 			'name'              => 'Upcoming',
 			'slug'              => 'upcoming',
-			'parent_url'        => trailingslashit( bp_displayed_user_domain() . 'events' ),
+			'parent_url'        => trailingslashit( $user_domain . 'events' ),
 			'parent_slug'       => 'events',
 			'screen_function'   => 'pp_events_profile',
 			'position'          => 20,
@@ -93,7 +101,7 @@ class PP_Events_Component extends BP_Component {
 		bp_core_new_subnav_item( array(
 			'name'              => 'Archive',
 			'slug'              => 'archive',
-			'parent_url'        => trailingslashit( bp_displayed_user_domain() . 'events' ),
+			'parent_url'        => trailingslashit( $user_domain . 'events' ),
 			'parent_slug'       => 'events',
 			'screen_function'   => 'pp_events_profile_archive',
 			'position'          => 25,
@@ -102,19 +110,22 @@ class PP_Events_Component extends BP_Component {
 			)
 		);
 
-
-		bp_core_new_subnav_item( array(
-			'name'              => 'Create Event',
-			'slug'              => 'create',
-			'parent_url'        => trailingslashit( bp_displayed_user_domain() . 'events' ),
-			'parent_slug'       => 'events',
-			'screen_function'   => 'pp_events_profile_create',
-			'position'          => 30,
-			'item_css_id'       => 'member-events-create',
-			'user_has_access'   => $user_has_access
-			)
-		);
-
+		if ( current_user_can('publish_events') ) {
+		
+			bp_core_new_subnav_item( array(
+				'name'              => 'Create Event',
+				'slug'              => 'create',
+				'parent_url'        => trailingslashit( $user_domain . 'events' ),
+				'parent_slug'       => 'events',
+				'screen_function'   => 'pp_events_profile_create',
+				'position'          => 30,
+				'item_css_id'       => 'member-events-create',
+				'user_has_access'   => $user_has_access
+				)
+			);
+			
+		}
+		
 		parent::setup_nav( $main_nav, $sub_nav );
 
 	}
