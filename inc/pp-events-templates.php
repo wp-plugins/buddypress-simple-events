@@ -4,15 +4,15 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 
-//  load single-event template from theme or plugin
+//  load single event template from theme or plugin
 function pp_event_single_template( $single_template ) {
 	global $post;
 
-	if ( $post->post_type == 'event' ) {
+	if ( $post->post_type == 'eventx' ) {
 
 		$theme_template = 'single-event.php';
 
-		if ( $theme_template = locate_template( 'single-event.php' ) )
+		if ( $theme_template == locate_template( 'single-event.php' ) )
 		   $single_template = $theme_template;
 		else
 		   $single_template = PP_EVENTS_DIR . '/templates/single-event.php';
@@ -24,29 +24,30 @@ function pp_event_single_template( $single_template ) {
 add_filter( 'single_template', 'pp_event_single_template' );
 
 
-// load events loop template from theme or plugin
-function pp_events_template_redirect() {
+//  load event loop template from theme or plugin
+function pp_events_template_include( $template ) {
     global $wp_query;
 
 	if( ! bp_is_user() ) {
 
 		$page_title = $wp_query->post->post_title;
 
-		//if ( $page_title == 'Events' ) {
 		if ( $page_title == __( 'Events', 'bp-simple-events' ) ) {
 
 			$theme_template = 'events-loop.php';
 
 			if ( $theme_template = locate_template( 'events-loop.php' ) )
-				load_template( get_template_directory() . '/events-loop.php' );
+			   $template = $theme_template;
 			else
-				load_template( PP_EVENTS_DIR . '/templates/events-loop.php' );
-
-			die();
+			   $template = PP_EVENTS_DIR . '/templates/events-loop.php';			
+			
 		}
 	}
+	
+	return $template;
 }
-add_action( 'template_redirect', 'pp_events_template_redirect' );
+add_action( 'template_include', 'pp_events_template_include' );
+
 
 
 // profile templates
