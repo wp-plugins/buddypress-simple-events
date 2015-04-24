@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 function pp_event_single_template( $single_template ) {
 	global $post;
 
-	if ( $post->post_type == 'eventx' ) {
+	if ( $post->post_type == 'event' ) {
 
 		$theme_template = 'single-event.php';
 
