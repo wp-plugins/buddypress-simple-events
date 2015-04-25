@@ -15,14 +15,30 @@ class PP_Simple_Events_Admin_Settings {
 
     public function __construct() {
 
-		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
+		if ( is_multisite() ) {
+		
+			if ( ! function_exists( 'is_plugin_active_for_network' ) )
+			    require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
+    
+        }
+        				
+        if ( is_multisite() && is_plugin_active_for_network( 'buddypress-simple-events/loader.php' ) ) 
+			add_action('network_admin_menu', array( $this, 'multisite_admin_menu' ) );
+		else
+			add_action( 'admin_menu', array( $this, 'admin_menu' ) );
 
 	}
 
+	
 	function admin_menu() {
 		add_options_page(  __( 'BP Simple Events', 'bp-simple-events'), __( 'BP Simple Events', 'bp-simple-events' ), 'manage_options', 'bp-simple-events', array( $this, 'settings_admin_screen' ) );
 	}
 
+	function multisite_admin_menu() {
+		add_submenu_page( 'settings.php', __( 'BP Simple Events', 'bp-simple-events'), __( 'BP Simple Events', 'bp-simple-events' ), 'manage_options', 'bp-simple-events', array( $this, 'settings_admin_screen' ) );
+	}	
+
+	
 	function settings_admin_screen(){
 		global $wp_roles;
 
@@ -149,42 +165,93 @@ class PP_Simple_Events_Admin_Settings {
 
 			$all_roles = $wp_roles->roles;
 
-			foreach(  $all_roles as $key => $value ){
-
-				if( 'administrator' != $key ) {
-
-					$role = get_role( $key );
-
-					$role->remove_cap( 'delete_published_events' );
-					$role->remove_cap( 'delete_events' );
-					$role->remove_cap( 'edit_published_events' );
-					$role->remove_cap( 'edit_events' );
-					$role->remove_cap( 'publish_events' );
-
-					$updated = true;
-				}
-			}
-
-
-			if( isset( $_POST['allow-roles'] ) ) {
-
-				foreach( $_POST['allow-roles'] as $key => $value ){
-
-					if( array_key_exists($value, $all_roles ) ) {
-
-						if( 'administrator' != $value ) {
-
-							$role = get_role( $value );
-							$role->add_cap( 'delete_published_events' );
-							$role->add_cap( 'delete_events' );
-							$role->add_cap( 'edit_published_events' );
-							$role->add_cap( 'edit_events' );
-							$role->add_cap( 'publish_events' );
-
+			if( is_multisite() && is_network_admin() ) {
+			    //apply_caps_to_blog
+				global $current_site,$wpdb;
+				$blog_ids = $wpdb->get_col('SELECT blog_id FROM '.$wpdb->blogs.' WHERE site_id='.$current_site->id);
+				foreach($blog_ids as $blog_id){
+					switch_to_blog($blog_id);
+				    //normal blog role application
+					foreach(  $all_roles as $key => $value ){
+		
+						if( 'administrator' != $key ) {
+		
+							$role = get_role( $key );
+		
+							$role->remove_cap( 'delete_published_events' );
+							$role->remove_cap( 'delete_events' );
+							$role->remove_cap( 'edit_published_events' );
+							$role->remove_cap( 'edit_events' );
+							$role->remove_cap( 'publish_events' );
+		
+							$updated = true;
 						}
 					}
+					
+					if( isset( $_POST['allow-roles'] ) ) {
+		
+						foreach( $_POST['allow-roles'] as $key => $value ){
+		
+							if( array_key_exists($value, $all_roles ) ) {
+		
+								if( 'administrator' != $value ) {
+		
+									$role = get_role( $value );
+									$role->add_cap( 'delete_published_events' );
+									$role->add_cap( 'delete_events' );
+									$role->add_cap( 'edit_published_events' );
+									$role->add_cap( 'edit_events' );
+									$role->add_cap( 'publish_events' );
+		
+								}
+							}
+						}
+		
+					}					
+					
+					restore_current_blog();
 				}
-
+			}	
+			
+			// not multisite		
+			else { 
+				foreach(  $all_roles as $key => $value ){
+	
+					if( 'administrator' != $key ) {
+	
+						$role = get_role( $key );
+	
+						$role->remove_cap( 'delete_published_events' );
+						$role->remove_cap( 'delete_events' );
+						$role->remove_cap( 'edit_published_events' );
+						$role->remove_cap( 'edit_events' );
+						$role->remove_cap( 'publish_events' );
+	
+						$updated = true;
+					}
+				}
+	
+	
+				if( isset( $_POST['allow-roles'] ) ) {
+	
+					foreach( $_POST['allow-roles'] as $key => $value ){
+	
+						if( array_key_exists($value, $all_roles ) ) {
+	
+							if( 'administrator' != $value ) {
+	
+								$role = get_role( $value );
+								$role->add_cap( 'delete_published_events' );
+								$role->add_cap( 'delete_events' );
+								$role->add_cap( 'edit_published_events' );
+								$role->add_cap( 'edit_events' );
+								$role->add_cap( 'publish_events' );
+	
+							}
+						}
+					}
+	
+				}
 			}
 
 			if( $updated )

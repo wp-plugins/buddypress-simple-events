@@ -3,7 +3,7 @@
 /**
  * Template for looping through Events on a member profile page
  * You can copy this file to your-theme/buddypress/members/single
- * and then edit the layout.
+ * and then edit the layout. 
  */
 
 $paged = ( isset( $_GET['ep'] ) ) ? $_GET['ep'] : 1;
