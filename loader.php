@@ -2,12 +2,26 @@
 /*
 Plugin Name: BuddyPress Simple Events
 Description: An Events plugin for BuddyPress
-Version: 1.1
+Version: 1.4.3
 Author: shanebp
 Author URI: http://philopress.com/
 */
 
 if ( !defined( 'ABSPATH' ) ) exit;
+
+
+function pp_events_bp_check() {
+	if ( !class_exists('BuddyPress') ) {
+		add_action( 'admin_notices', 'pp_events_install_buddypress_notice' );
+	}
+}
+add_action('plugins_loaded', 'pp_events_bp_check', 999);
+
+function pp_events_install_buddypress_notice() {
+	echo '<div id="message" class="error fade"><p style="line-height: 150%">';
+	_e('<strong>BuddyPress Simple Events</strong></a> requires the BuddyPress plugin. Please <a href="http://buddypress.org/download">install BuddyPress</a> first, or <a href="plugins.php">deactivate BuddyPress Simple Events</a>.');
+	echo '</p></div>';
+}
 
 function pp_events_init() {
 
@@ -106,6 +120,9 @@ function pp_create_events_page() {
 
 
 function pp_create_post_type_event() {
+
+	if ( ! defined( 'BP_VERSION' ) )
+		return;
 
 	register_post_type( 'event',
 		array(
