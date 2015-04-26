@@ -54,7 +54,7 @@ function pp_events_pagination( $wp_query ) {
 function pp_events_profile_pagination( $wp_query ) {
 
 	$events_profile_page_links = paginate_links( array(
-		'base' => add_query_arg( 'ep', '%#%' ),
+		'base' => esc_url( add_query_arg( 'ep', '%#%' ) ),
 		'format' => '',
 		'total' => ceil( (int) $wp_query->found_posts / (int) get_query_var('posts_per_page') ),
 		'current' => (int) get_query_var('paged'),

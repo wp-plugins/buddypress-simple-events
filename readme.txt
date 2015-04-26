@@ -6,7 +6,7 @@ Author URI: http://philopress.com/contact/
 Plugin URI: http://philopress.com/products/
 Requires at least: WP 4.0 / BP 2.2
 Tested up to: WP 4.2 / BP 2.2.3.1
-Stable tag: 1.4.2
+Stable tag: 1.4.3
 License: GPLv2 or later
 
 A simple Events plugin for BuddyPress
@@ -96,6 +96,9 @@ If they are not a member of the main site, they will not see the Events tab.
 = 1.4.2 =
 * fix bug in WP templates filter
 
+= 1.4.3 =
+* close the recent XSS vulnerability found in add_query_arg
+
 == Upgrade Notice ==
 
 = 1.0 =
@@ -123,4 +126,7 @@ If they are not a member of the main site, they will not see the Events tab.
 
 = 1.4.2 =
 * fix bug in WP templates filter
+
+= 1.4.3 =
+* close the recent XSS vulnerability found in add_query_arg
 

@@ -2,7 +2,7 @@
 /*
 Plugin Name: BuddyPress Simple Events
 Description: An Events plugin for BuddyPress
-Version: 1.4.2
+Version: 1.4.3
 Author: shanebp
 Author URI: http://philopress.com/
 */
