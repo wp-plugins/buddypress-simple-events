@@ -70,12 +70,12 @@ function pp_events_profile_pagination( $wp_query ) {
 // so event cpt is found on assigned cat archive page
 function pp_event_query_post_type($query) {
 
-	if( is_category() || is_tag() ) {
+	if( is_category() || is_tag() &&  $query->is_main_query() && empty( $query->query_vars['suppress_filters'] ) ) {
 		$post_type = get_query_var('post_type');
 		if($post_type)
 			$post_type = $post_type;
 		else
-			$post_type = array( 'event', 'nav_menu_item');
+			$post_type = array( 'post', 'event', 'nav_menu_item');
 
 		$query->set('post_type',$post_type);
 
