@@ -4,16 +4,16 @@ Donate link: http://www.philopress.com/donate/
 Tags: buddypress, events
 Author URI: http://philopress.com/contact/
 Plugin URI: http://philopress.com/products/
-Requires at least: WP 4.0 / BP 2.2
-Tested up to: WP 4.2 / BP 2.2.3.1
-Stable tag: 1.4.3
+Requires at least: WP 4.0
+Tested up to: WP 4.3.1 
+Stable tag: 1.4.5
 License: GPLv2 or later
 
 A simple Events plugin for BuddyPress
 
 == Description ==
 
-This BuddyPress plugin allows members to create, edit and delete Events from their profile.
+This BuddyPress plugin allows members to create, edit and delete Events from their profile. It requires BuddyPress 2.2 or higher.
 
 It:
 
@@ -31,7 +31,7 @@ It does NOT have:
 * calendars
 * recurring events
 
-If you would like support for Images, an Attending button and an option for assignment to a Group,
+If you would like support for Images, an Attending button or an option for assignment to a Group,
 you may be interested in http://www.philopress.com/buddypress-simple-events-pro
 
 For more BuddyPress plugins, please visit http://www.philopress.com/
@@ -99,6 +99,13 @@ If they are not a member of the main site, they will not see the Events tab.
 = 1.4.3 =
 * close the recent XSS vulnerability found in add_query_arg
 
+= 1.4.4 =
+* tested in WP 4.3
+
+= 1.4.5 =
+* tweaked pre_get_posts filter for category archive pages 
+
+
 == Upgrade Notice ==
 
 = 1.0 =
@@ -130,3 +137,8 @@ If they are not a member of the main site, they will not see the Events tab.
 = 1.4.3 =
 * close the recent XSS vulnerability found in add_query_arg
 
+= 1.4.4 =
+* tested in WP 4.3
+
+= 1.4.5 =
+* tweaked pre_get_posts filter for category archive pages 
